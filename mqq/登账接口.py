@@ -211,13 +211,13 @@ dat["biz_content"] = urllib.parse.quote(result.decode('utf-8'))
 
 dat1 = urllib.parse.urlencode(dat)
 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-#注：非Java程序无demo的情况，RSA证书签名验签算法使用“SHA1withRSA”，加密解密算法使用“RSA”，密钥长度1024。
-#平台或商户生成RSA密钥对，公钥通过登录到快捷通商户官网进行上传（参考RSA公钥上传），私钥用于与快捷通系统交互数据传输中的加解密及签名、验签，请平台或商户妥善保管。
+# 注：非Java程序无demo的情况，RSA证书签名验签算法使用“SHA1withRSA”，加密解密算法使用“RSA”，密钥长度1024。
+# 平台或商户生成RSA密钥对，公钥通过登录到快捷通商户官网进行上传（参考RSA公钥上传），私钥用于与快捷通系统交互数据传输中的加解密及签名、验签，请平台或商户妥善保管。
 print(dat)
 print(type(dat1))
 print("url=====", dat1)
-#   	https://c1gateway.kjtpay.com/recv.do
-#       https://zgateway.kjtpay.com/recv.do
+#  https://c1gateway.kjtpay.com/recv.do
+#  https://zgateway.kjtpay.com/recv.do
 r = requests.post("https://c1gateway.kjtpay.com/recv.do", data=dat, headers=headers)
 
 print(r)
