@@ -11,11 +11,17 @@ class Logger(object):
     def __init__(self, logger_name='logs…'):
         self.logger = logging.getLogger(logger_name)
         logging.root.setLevel(logging.NOTSET)
-        self.log_file_name = 'logs'  # 日志文件的名称
-        self.backup_count = 5  # 最多存放日志的数量
+
+        # 日志文件的名称
+        self.log_file_name = 'logs'
+
+        # 最多存放日志的数量
+        self.backup_count = 5
+
         # 日志输出级别
         self.console_output_level = 'WARNING'
         self.file_output_level = 'DEBUG'
+
         # 日志输出格式
         self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 

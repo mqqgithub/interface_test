@@ -2,10 +2,17 @@ import os
 import configparser
 from common import getpathInfo
 
-path = getpathInfo.get_base_path()#调用实例化，还记得这个类返回的路径为C:\Users\songlihui\PycharmProjects\dkxinterfaceTest
-config_path = os.path.join(path, 'config.ini')#这句话是在path路径下再加一级，最后变成C:\Users\songlihui\PycharmProjects\dkxinterfaceTest\config.ini
-config = configparser.ConfigParser()#调用外部的读取配置文件的类创建config对象
-config.read(config_path, encoding='utf-8')#调用父类的方法读取配置文件内容
+# 调用实例化，还记得这个类返回的路径为C:\Users\songlihui\PycharmProjects\dkxinterfaceTest
+path = getpathInfo.get_base_path()
+
+# 这句话是在path路径下再加一级，最后变成C:\Users\songlihui\PycharmProjects\dkxinterfaceTest\config.ini
+config_path = os.path.join(path, 'config.ini')
+
+# 调用外部的读取配置文件的类创建config对象
+config = configparser.ConfigParser()
+
+# 调用父类的方法读取配置文件内容
+config.read(config_path, encoding='utf-8')
 
 class ReadConfig():
 
