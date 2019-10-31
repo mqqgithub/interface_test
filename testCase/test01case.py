@@ -7,12 +7,14 @@ import urllib.parse
 # import pythoncom
 # pythoncom.CoInitialize()
 
-url = geturlParams.geturlParams().get_Url()# 调用我们的geturlParams获取我们拼接的URL
+# 调用我们的geturlParams获取我们拼接的URL
+url = geturlParams.geturlParams().get_Url()
 login_xls = readExcel.readExcel().get_xls('userCase.xlsx', 'login')
-#login_xls是一个列表，每行值也是一个列表，列表中的列表
-#print('输入参数值', login_xls)
+# login_xls是一个列表，每行值也是一个列表，列表中的列表
+# print('输入参数值', login_xls)
 
-@paramunittest.parametrized(*login_xls) #加载列表中的值
+# 加载列表中的值
+@paramunittest.parametrized(*login_xls)
 class testUserLogin01(unittest.TestCase):
     def setParameters(self, case_name, path, query, method):
         """
@@ -20,7 +22,7 @@ class testUserLogin01(unittest.TestCase):
         :param case_name:用例名字
         :param path ：文件路径
         :param query：
-        :param method：
+        :param method：post/get
         :return:
         """
         self.case_name = str(case_name)
@@ -37,7 +39,6 @@ class testUserLogin01(unittest.TestCase):
 
     def setUp(self):
         """
-
         :return:
         """
         print(self.case_name+"测试开始前准备")
@@ -55,14 +56,22 @@ class testUserLogin01(unittest.TestCase):
         """
         url1 = "http://www.xxx.com/login?"
         new_url = url1 + self.query
-        data1 = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(new_url).query))# 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
-        info = RunMain().run_main(self.method, url, data1)# 根据Excel中的method调用run_main来进行requests请求，并拿到响应
-        ss = json.loads(info)# 将响应转换为字典格式
-        if self.case_name == 'login':# 如果case_name是login，说明合法，返回的code应该为200
+
+        # 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
+        data1 = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(new_url).query))
+
+        # 根据Excel中的method调用run_main来进行requests请求，并拿到响应
+        info = RunMain().run_main(self.method, url, data1)
+
+        # 将响应转换为字典格式
+        ss = json.loads(info)
+
+        # 如果case_name是login，说明合法，返回的code应该为200
+        if self.case_name == 'login':
             self.assertEqual(ss['code'], 200)
-        if self.case_name == 'login_error':# 同上
+        if self.case_name == 'login_error':
             self.assertEqual(ss['code'], -1)
-        if self.case_name == 'login_null':# 同上
+        if self.case_name == 'login_null':
             self.assertEqual(ss['code'], 10001)
 
 

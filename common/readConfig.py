@@ -3,7 +3,7 @@ import configparser
 from common import getpathInfo
 
 # 调用实例化，还记得这个类返回的路径为C:\Users\songlihui\PycharmProjects\dkxinterfaceTest
-path = getpathInfo.get_base_path()
+path = getpathInfo.get_current_path()
 
 # 这句话是在path路径下再加一级，最后变成C:\Users\songlihui\PycharmProjects\dkxinterfaceTest\config.ini
 config_path = os.path.join(path, 'config.ini')
