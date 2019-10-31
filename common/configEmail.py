@@ -5,8 +5,12 @@ from email.mime.application import MIMEApplication # 发送各种附件
 from email.mime.multipart import MIMEMultipart
 from common.getpathInfo import get_base_path
 import os
-class email():
-    def sendemail(self):
+
+
+class Email:
+    # @staticmethod原因是该方法不涉及对该类属性的操作，编译器建议声明为@staticmethod，面向对象思想体现
+    @staticmethod
+    def send_email(self):
         # 发件人和收件人
         sender = 'mqq508@163.com'
         receiver = '756738633@qq.com'
@@ -22,7 +26,7 @@ class email():
         # mail_body = '这里是邮件的正文'
 
         # 创建一个实例
-        #msg = MIMEText(mail_body, 'plain', 'utf-8')  # 邮件正文
+        # msg = MIMEText(mail_body, 'plain', 'utf-8')  # 邮件正文
 
         msg = MIMEMultipart()
         msg['From'] = sender  # 邮件上显示的发件人
@@ -71,6 +75,6 @@ class email():
             print("邮件发送失败！！！")
 
 
-if __name__=='__main__':
-    e = email()
-    e.sendemail()
+if __name__ == '__main__':
+    e = Email()
+    e.send_email()

@@ -14,15 +14,18 @@ config = configparser.ConfigParser()
 # 调用父类的方法读取配置文件内容
 config.read(config_path, encoding='utf-8')
 
-class ReadConfig():
+class ReadConfig:
 
     def get_http(self, name):
         value = config.get('HTTP', name)
         return value
+
     def get_email(self, name):
         value = config.get('EMAIL', name)
         return value
-    def get_mysql(self, name):#写好，留以后备用。但是因为我们没有对数据库的操作，所以这个可以屏蔽掉
+
+    # 写好，留以后备用。但是因为我们没有对数据库的操作，所以这个可以屏蔽掉
+    def get_mysql(self, name):
         value = config.get('DATABASE', name)
         return value
 
