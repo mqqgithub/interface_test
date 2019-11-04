@@ -5,10 +5,11 @@ import requests
 import json
 from common.log import logger
 
-logger = logger
+logger = logger().get_logger()
 class RunMain():
 
-    def send_post(self, url, data):# 定义一个方法，传入需要的参数url和data
+    # 定义一个方法，传入需要的参数url和data
+    def send_post(self, url, data):
         # 参数必须按照url、data顺序传入,data是字典类型
         result = requests.post(url=url, data=data).json()# 因为这里要封装post方法，所以这里的url和data值不能写死
         res = json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2)
@@ -25,7 +26,8 @@ class RunMain():
         return res
 
     # method是get、post，url接口地址，data接口参数
-    def run_main(self, method, url=None, data=None):#定义一个run_main函数，通过传过来的method来进行不同的get或post请求
+    # 定义一个run_main函数，通过传过来的method来进行不同的get或post请求
+    def run_main(self, method, url=None, data=None):
         result = None
         if method == 'post':
             result = self.send_post(url, data)

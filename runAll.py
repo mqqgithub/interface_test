@@ -2,11 +2,12 @@ import os
 import common.HTMLTestRunner as HTMLTestRunner
 from common import getpathInfo
 import unittest
+from common.log import logger
 
 # from common.configEmail import send_email
 # from apscheduler.schedulers.blocking import BlockingScheduler
 # import pythoncom
-import common.log
+
 
 # 创建一个发邮件的对象
 # send_mail = send_email()
@@ -19,7 +20,7 @@ report_path = os.path.join(path, 'result')
 
 # 是否发送email
 # on_off = readConfig.ReadConfig().get_email('on_off')
-log = common.log.logger
+log = logger().get_logger()
 
 class AllTest:
     def __init__(self):
