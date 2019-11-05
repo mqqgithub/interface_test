@@ -27,9 +27,11 @@ class testcals(unittest.TestCase):
 
     def test_02_case(self):
 
-        log.error("首页error 日志")
+
         log.debug("订单页debug 日志")
         log.info("活动页info 日志")
+        log.warning("页面warning日志")
+        log.error("首页error 日志")
         log.critical("支付critical 日志")
 
     def tearDown(self):

@@ -16,14 +16,14 @@ class logger(object):
         self.log_file_name = 'logs'
 
         # 最多存放日志的数量
-        self.backup_count = 5
+        self.backup_count = 3
 
         # 日志输出级别
         self.console_output_level = 'WARNING'
         self.file_output_level = 'DEBUG'
 
         # 日志输出格式
-        self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y/%m/%d')
 
     def get_logger(self):
         """在logger中添加日志句柄并返回，如果logger已有句柄，则直接返回"""
@@ -34,8 +34,37 @@ class logger(object):
             self.logger.addHandler(console_handler)
 
             # 每天重新创建一个日志文件，最多保留backup_count份
-            file_handler = TimedRotatingFileHandler(filename=os.path.join(log_path, self.log_file_name), when='D',
-                                                    interval=1, backupCount=self.backup_count, delay=True,
+            '''TimedRotatingFileHandler的构造函数定义如下:
+                TimedRotatingFileHandler(filename [,when [,interval [,backupCount]]])
+                
+                filename 是输出日志文件名的前缀，比如log/myapp.log
+                
+                when 是一个字符串的定义如下：
+                “S”: Seconds
+                “M”: Minutes
+                “H”: Hours
+                “D”: Days
+                “W”: Week day (0=Monday)
+                “midnight”: Roll over at midnight
+                
+                interval 是指等待多少个单位when的时间后，Logger会自动重建文件，当然，这个文件的创建
+                取决于filename+suffix，若这个文件跟之前的文件有重名，则会自动覆盖掉以前的文件，所以
+                有些情况suffix要定义的不能因为when而重复。
+                
+                backupCount 是保留日志个数。默认的0是不会自动删除掉日志。若设3，则在文件的创建过程中
+                库会判断是否有超过这个3，若超过，则会从最先创建的开始删除。
+                
+                注意：filehanlder.suffix的格式必须这么写，才能自动删除旧文件，如果设定是天，就必须写成“%Y-%m-%d.log”，
+                写成其他格式会导致删除旧文件不生效。
+                
+                ————————————————
+                版权声明：本文为CSDN博主「未济2019」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+                原文链接：https://blog.csdn.net/lizhe_dashuju/article/details/72579705'''
+            file_handler = TimedRotatingFileHandler(filename=os.path.join(log_path, self.log_file_name),
+                                                    when='D',
+                                                    interval=1,
+                                                    backupCount=self.backup_count,
+                                                    delay=True,
                                                     encoding='utf-8')
             file_handler.setFormatter(self.formatter)
             file_handler.setLevel(self.file_output_level)

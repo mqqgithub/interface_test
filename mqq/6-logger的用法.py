@@ -1,4 +1,5 @@
 # https://blog.csdn.net/XnCSD/article/details/87977288
+# https://www.cnblogs.com/deeper/p/7404190.html
 # 导入logger模块
 import logging
 import os
