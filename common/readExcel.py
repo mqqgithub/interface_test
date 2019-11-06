@@ -1,13 +1,12 @@
 import os
 from common import getpathInfo
-
-# 调用读Excel的第三方库 xlrd
 from xlrd import open_workbook
 
 # 拿到该项目所在的绝对路径
 path = getpathInfo.get_base_path()
 
-class readExcel():
+
+class ReadExcel():
 
     # xls_name填写用例的Excel名称 sheet_name该Excel的sheet名称
     def get_xls(self, xls_name, sheet_name):
@@ -32,9 +31,10 @@ class readExcel():
                 cls.append(sheet.row_values(i))
         return cls
 
+
 if __name__ == '__main__':
 
     # 我们执行该文件测试一下是否可以正确获取Excel中的值
-    print(readExcel().get_xls('userCase.xlsx', 'login'))
-    print(readExcel().get_xls('userCase.xlsx', 'login')[0][1])
-    print(readExcel().get_xls('userCase.xlsx', 'login')[1][2])
+    print(ReadExcel().get_xls('userCase.xlsx', 'login'))
+    print(ReadExcel().get_xls('userCase.xlsx', 'login')[0][1])
+    print(ReadExcel().get_xls('userCase.xlsx', 'login')[1][2])

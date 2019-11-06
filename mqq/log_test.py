@@ -5,7 +5,7 @@ from mqq.log import TestLog
 log = TestLog().get_log()
 
 
-class testcals(unittest.TestCase):
+class TestC(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()
@@ -26,7 +26,6 @@ class testcals(unittest.TestCase):
             raise
 
     def test_02_case(self):
-
 
         log.debug("订单页debug 日志")
         log.info("活动页info 日志")

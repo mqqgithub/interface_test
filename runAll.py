@@ -1,8 +1,8 @@
 import os
+import unittest
 import common.HTMLTestRunner as HTMLTestRunner
 from common import getpathInfo
-import unittest
-from common.log import logger
+from common.log import TestLog
 
 # from common.configEmail import send_email
 # from apscheduler.schedulers.blocking import BlockingScheduler
@@ -20,7 +20,8 @@ report_path = os.path.join(path, 'result')
 
 # 是否发送email
 # on_off = readConfig.ReadConfig().get_email('on_off')
-log = logger().get_logger()
+log = TestLog().get_log()
+
 
 class AllTest:
     def __init__(self):

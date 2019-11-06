@@ -1,14 +1,15 @@
 import json
 import unittest
+import urllib.parse
 from common.configHttp import RunMain
 import paramunittest
 from common import geturlParams, readExcel
-import urllib.parse
+
 # import pythoncom
 # pythoncom.CoInitialize()
 
 url = geturlParams.geturlParams().get_Url()# 调用我们的geturlParams获取我们拼接的URL
-login_xls = readExcel.readExcel().get_xls('user03Case.xlsx', 'login')
+login_xls = readExcel.ReadExcel().get_xls('user03Case.xlsx', 'login')
 
 @paramunittest.parametrized(*login_xls)
 class testUserLogin02(unittest.TestCase):

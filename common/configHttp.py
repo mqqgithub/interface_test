@@ -3,9 +3,9 @@
 '''
 import requests
 import json
-from common.log import logger
+from common.log import TestLog
 
-logger = logger().get_logger()
+logger = TestLog().get_log()
 class RunMain():
 
     # 定义一个方法，传入需要的参数url和data

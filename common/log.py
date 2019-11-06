@@ -1,81 +1,58 @@
-import os
+
 import logging
-from logging.handlers import TimedRotatingFileHandler
-from common import getpathInfo
-
-path = getpathInfo.get_base_path()
-log_path = os.path.join(path, 'result')  # 存放log文件的路径
+import time
+import common.getpathInfo as path
+import os
 
 
-class logger(object):
-    def __init__(self, logger_name='log'):
-        self.logger = logging.getLogger(logger_name)
-        logging.root.setLevel(logging.NOTSET)
+class TestLog(object):
+    '''
+封装后的logging
+    '''
 
-        # 日志文件的名称
-        self.log_file_name = 'logs'
+    def __init__(self, logger=None):
+        '''
+            指定保存日志的文件路径，日志级别，以及调用文件
+            将日志存入到指定的文件中
+        '''
 
-        # 最多存放日志的数量
-        self.backup_count = 3
+        # 创建一个logger
+        self.logger = logging.getLogger(logger)
+        # 相当于总的记录日志的级别
+        self.logger.setLevel(logging.DEBUG)
+        # 创建一个handler，用于写入日志文件
+        self.log_time = time.strftime("%Y_%m_%d_")
+        self.log_path = os.path.join(path.get_base_path(), 'result')
+        self.log_name = self.log_path + '\\' + self.log_time + 'test.log'
+        # fh = logging.FileHandler(self.log_name, 'a')  # 追加模式  这个是python2的
+        fh = logging.FileHandler(self.log_name, 'a', encoding='utf-8')  # 这个是python3的
+        # 文件记录日志的级别，依赖于总的记录日志的级别
+        fh.setLevel(logging.INFO)
 
-        # 日志输出级别
-        self.console_output_level = 'WARNING'
-        self.file_output_level = 'DEBUG'
+        # 再创建一个handler，用于输出到控制台
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)
 
-        # 日志输出格式
-        self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y/%m/%d')
+        # 定义handler的输出格式
+        formatter = logging.Formatter(
+            '[%(asctime)s] %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s]%(message)s')
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
 
-    def get_logger(self):
-        """在logger中添加日志句柄并返回，如果logger已有句柄，则直接返回"""
-        if not self.logger.handlers:  # 避免重复日志
-            console_handler = logging.StreamHandler()
-            console_handler.setFormatter(self.formatter)
-            console_handler.setLevel(self.console_output_level)
-            self.logger.addHandler(console_handler)
+        # 给logger添加handler
+        self.logger.addHandler(fh)
+        self.logger.addHandler(ch)
 
-            # 每天重新创建一个日志文件，最多保留backup_count份
-            '''TimedRotatingFileHandler的构造函数定义如下:
-                TimedRotatingFileHandler(filename [,when [,interval [,backupCount]]])
-                
-                filename 是输出日志文件名的前缀，比如log/myapp.log
-                
-                when 是一个字符串的定义如下：
-                “S”: Seconds
-                “M”: Minutes
-                “H”: Hours
-                “D”: Days
-                “W”: Week day (0=Monday)
-                “midnight”: Roll over at midnight
-                
-                interval 是指等待多少个单位when的时间后，Logger会自动重建文件，当然，这个文件的创建
-                取决于filename+suffix，若这个文件跟之前的文件有重名，则会自动覆盖掉以前的文件，所以
-                有些情况suffix要定义的不能因为when而重复。
-                
-                backupCount 是保留日志个数。默认的0是不会自动删除掉日志。若设3，则在文件的创建过程中
-                库会判断是否有超过这个3，若超过，则会从最先创建的开始删除。
-                
-                注意：filehanlder.suffix的格式必须这么写，才能自动删除旧文件，如果设定是天，就必须写成“%Y-%m-%d.log”，
-                写成其他格式会导致删除旧文件不生效。
-                
-                ————————————————
-                版权声明：本文为CSDN博主「未济2019」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-                原文链接：https://blog.csdn.net/lizhe_dashuju/article/details/72579705'''
-            file_handler = TimedRotatingFileHandler(filename=os.path.join(log_path, self.log_file_name),
-                                                    when='D',
-                                                    interval=1,
-                                                    backupCount=self.backup_count,
-                                                    delay=True,
-                                                    encoding='utf-8')
-            file_handler.setFormatter(self.formatter)
-            file_handler.setLevel(self.file_output_level)
-            self.logger.addHandler(file_handler)
+        #  添加下面一句，在记录日志之后移除句柄
+        # self.logger.removeHandler(ch)
+        # self.logger.removeHandler(fh)
+        # 关闭打开的文件
+        fh.close()
+        ch.close()
+
+    def get_log(self):
         return self.logger
 
-if __name__=='__main__':
-
-    logger = logger().get_logger()
-    logger.debug("test debug")
-    logger.info("test info")
 '''
 import os
 import logging

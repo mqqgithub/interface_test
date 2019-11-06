@@ -9,7 +9,7 @@ import urllib.parse
 # pythoncom.CoInitialize()
 # 调用我们的geturlParams获取我们拼接的URL
 url = geturlParams.geturlParams().get_Url()
-login_xls = readExcel.readExcel().get_xls('user02Case.xlsx', 'login')
+login_xls = readExcel.ReadExcel().get_xls('user02Case.xlsx', 'login')
 
 
 @paramunittest.parametrized(*login_xls)

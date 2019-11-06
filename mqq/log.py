@@ -27,7 +27,7 @@ class TestLog(object):
         # 创建一个handler，用于写入日志文件
         self.log_time = time.strftime("%Y_%m_%d_")
         self.log_path = os.path.join(path.get_base_path(), 'result')
-        self.log_name = self.log_path + self.log_time + 'test.log'
+        self.log_name = self.log_path + '\\' + self.log_time + 'test.log'
         # fh = logging.FileHandler(self.log_name, 'a')  # 追加模式  这个是python2的
         fh = logging.FileHandler(self.log_name, 'a', encoding='utf-8')  # 这个是python3的
         # 文件记录日志的级别，依赖于总的记录日志的级别
