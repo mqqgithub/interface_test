@@ -1,4 +1,5 @@
 import os
+import time
 import unittest
 import common.HTMLTestRunner as HTMLTestRunner
 from common import getpathInfo
@@ -131,7 +132,7 @@ class AllTest:
                 print("Have no case to test.")
         except Exception as ex:
             print(str(ex))
-            # log.info(str(ex))
+            log.info(str(ex))
 
         finally:
             print("*********TEST END*********")
@@ -147,9 +148,10 @@ class AllTest:
 # scheduler.add_job(AllTest().run, 'cron', day_of_week='1-5', hour=14, minute=59)
 # scheduler.start()
 
+
 if __name__ == '__main__':
-    #AllTest().run()
-    tests = AllTest()
-    tests.run()
+    AllTest().run()
+    # tests = AllTest()
+    # tests.run()
 
 

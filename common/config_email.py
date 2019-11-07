@@ -1,15 +1,14 @@
 import smtplib
+import os
 from email.header import Header  # 用来设置邮件头和邮件主题
 from email.mime.text import MIMEText  # 发送正文只包含简单文本的邮件，引入MIMEText即可
 from email.mime.application import MIMEApplication # 发送各种附件
 from email.mime.multipart import MIMEMultipart
 from common.getpathInfo import get_base_path
-import os
 
 
-class Email:
-    # @staticmethod原因是该方法不涉及对该类属性的操作，编译器建议声明为@staticmethod，面向对象思想体现
-    @staticmethod
+class Email(object):
+
     def send_email(self):
         # 发件人和收件人
         sender = 'mqq508@163.com'
