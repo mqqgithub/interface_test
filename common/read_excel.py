@@ -6,17 +6,18 @@ from xlrd import open_workbook
 path = getpathInfo.get_base_path()
 
 
-class ReadExcel():
+class ReadExcel(object):
 
     # xls_name填写用例的Excel名称 sheet_name该Excel的sheet名称
-    def get_xls(self, xls_name, sheet_name):
+    @staticmethod
+    def get_xls(xls_name, sheet_name):
         cls = []
 
         # 获取用例文件路径
-        xlsPath = os.path.join(path, "testFile", 'case', xls_name)
+        xls_path = os.path.join(path, "testFile", 'case', xls_name)
 
         # 打开用例Excel
-        file = open_workbook(xlsPath)
+        file = open_workbook(xls_path)
 
         # 获得打开Excel的sheet
         sheet = file.sheet_by_name(sheet_name)
@@ -35,6 +36,6 @@ class ReadExcel():
 if __name__ == '__main__':
 
     # 我们执行该文件测试一下是否可以正确获取Excel中的值
-    print(ReadExcel().get_xls('userCase.xlsx', 'login'))
-    print(ReadExcel().get_xls('userCase.xlsx', 'login')[0][1])
-    print(ReadExcel().get_xls('userCase.xlsx', 'login')[1][2])
+    print(ReadExcel.get_xls('userCase.xlsx', 'login'))
+    print(ReadExcel.get_xls('userCase.xlsx', 'login')[0][1])
+    print(ReadExcel.get_xls('userCase.xlsx', 'login')[1][2])

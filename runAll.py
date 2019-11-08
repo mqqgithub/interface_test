@@ -4,8 +4,8 @@ import unittest
 import common.HTMLTestRunner as HTMLTestRunner
 from common import getpathInfo
 from common.log import TestLog
+from common.config_email import Email
 
-# from common.configEmail import send_email
 # from apscheduler.schedulers.blocking import BlockingScheduler
 # import pythoncom
 
@@ -25,13 +25,15 @@ log = TestLog().get_log()
 
 
 class AllTest:
+
     def __init__(self):
 
         # 初始化一些参数和数据
-        global resultPath
+        global REPORTER_PATH
 
         # result/report.html文件路径
-        resultPath = os.path.join(report_path, "report.html")
+        report_time = time.strftime("%Y_%m_%d_%H_%M_%S_")
+        REPORTER_PATH = report_path + "\\" + report_time + "report.html"
 
         # 配置执行哪些测试文件的配置文件路径
         self.caseListFile = os.path.join(path, "caselist.txt")
@@ -43,7 +45,7 @@ class AllTest:
         self.caseList = []
 
         # 将resultPath的值输入到日志，方便定位查看问题
-        log.info('resultPath:  '+resultPath)
+        log.info('resultPath:  '+REPORTER_PATH)
         log.info('caseListFile:  '+self.caseListFile)
         log.info('caseList:  '+str(self.caseList))
 
@@ -124,7 +126,7 @@ class AllTest:
             if suit is not None:
                 print('if-suit')
                 # 打开result/20181108/report.html测试报告文件，如果不存在就创建
-                fp = open(resultPath, 'wb')
+                fp = open(REPORTER_PATH, 'wb')
                 # 调用HTMLTestRunner
                 runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Test Report', description='Test Description')
                 runner.run(suit)
@@ -136,13 +138,12 @@ class AllTest:
 
         finally:
             print("*********TEST END*********")
-            # log.info("*********TEST END*********")
+            log.info("*********TEST END*********")
             fp.close()
-        # 判断邮件发送的开关
-        # if on_off == 'on':
-        #    send_mail.outlook()
-        # else:
-        #    print("邮件发送开关配置关闭，请打开开关后可正常自动发送测试报告")
+
+        log.info("发送邮件开始")
+        Email.send_email(REPORTER_PATH)
+        log.info("发送邮件成功")
 # pythoncom.CoInitialize()
 # scheduler = BlockingScheduler()
 # scheduler.add_job(AllTest().run, 'cron', day_of_week='1-5', hour=14, minute=59)

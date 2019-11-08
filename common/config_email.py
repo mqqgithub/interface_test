@@ -1,15 +1,16 @@
 import smtplib
-import os
 from email.header import Header  # 用来设置邮件头和邮件主题
 from email.mime.text import MIMEText  # 发送正文只包含简单文本的邮件，引入MIMEText即可
 from email.mime.application import MIMEApplication # 发送各种附件
 from email.mime.multipart import MIMEMultipart
-from common.getpathInfo import get_base_path
 
 
 class Email(object):
 
-    def send_email(self):
+    # 不需要使用类属性和对象属性（init中的变量），所以是静态方法，如果是类方法@classmethod.方法放在类中，函数在类外
+    # report_path测试报告路径，应为测试报告有时间戳所以每次名字都要变，此处要参数化
+    @staticmethod
+    def send_email(report_path):
         # 发件人和收件人
         sender = 'mqq508@163.com'
         receiver = '756738633@qq.com'
@@ -37,9 +38,10 @@ class Email(object):
         msg.attach(part)
 
         # ---这是附件部分---
-        attach_path = os.path.join(get_base_path(), 'result', 'report.html')
+        # attach_path = os.path.join(get_base_path(), 'result', 'report.html')
+        attach_path = report_path
         part = MIMEApplication(open(attach_path, 'rb').read())
-        part.add_header('Content-Disposition', 'attachment', filename="report.html")
+        part.add_header('Content-Disposition', 'attachment', filename='report.html')
         msg.attach(part)
         '''
         # xlsx类型附件
@@ -75,7 +77,8 @@ class Email(object):
 
 
 if __name__ == '__main__':
-    e = Email()
-    e.send_email()
-    
-    
+    # 测试地址
+    report_path = r"D:\interfaceTest\result\2019_11_08_11_00_25_report.html"
+    # 类直接使用静态方法
+    Email.send_email(report_path)
+
