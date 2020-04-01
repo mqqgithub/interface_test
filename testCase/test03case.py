@@ -15,7 +15,7 @@ login_xls = read_excel.ReadExcel.get_xls('user03Case.xlsx', 'login')
 
 # *login_xls 是一个列表，也可以是元组、字典
 @paramunittest.parametrized(*login_xls)
-class testUserLogin02(unittest.TestCase):
+class testUserLogin03(unittest.TestCase):
     # 注意这里接受参数的时候，必须要定义setParameters这个方法，并且只能是这个名称。
     # 括号后面的参数分别接受传入的参数名称。前面定义的是字典，那参数就跟前面字典的key保持一致
     def setParameters(self, case_name, path, query, method, result):
