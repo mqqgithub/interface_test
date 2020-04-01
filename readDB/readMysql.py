@@ -27,6 +27,7 @@ def get_mysql_data():
     cur.close()
     conn.close()
 
+
 if __name__ == "__main__":
    data=get_mysql_data()
    for r in data:
