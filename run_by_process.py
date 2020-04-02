@@ -19,7 +19,7 @@ import multiprocessing
 path = getpathInfo.get_base_path()
 print(path)
 # 测试结果文件夹路径
-report_path = os.path.join(path, 'result')
+report_path = os.path.join(path, 'report')
 
 # 是否发送email
 # on_off = readConfig.ReadConfig().get_email('on_off')
@@ -79,6 +79,7 @@ class AllTest:
             discover = unittest.defaultTestLoader.discover(self.caseFile, pattern=case_name + '.py', top_level_dir=None)
             # 将discover存入suite_module元素组
             suite_module.append(discover)
+        print('suite_module=%s' % suite_module)
 
         # 判断suite_module元素组是否存在元素
         if len(suite_module) > 0:
@@ -105,23 +106,24 @@ class AllTest:
                 # 调用HTMLTestRunner
                 for i in suit:
                     runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Test Report', description='Test Description')
-                    proc = multiprocessing.Process(target=runner.run, args=(i,))
+                    proc = multiprocessing.Process(target=runner.run(i), args=(i,))
                     proclist.append(proc)
                 print('线程数量=%d' % len(proclist))
                 for pro in proclist:
                     pro.start()
                 for pro in proclist:
                     pro.join()
+                fp.close()
             else:
                 print("Have no case to test.")
         except Exception as ex:
             print(str(ex))
-            log.info(str(ex))
+            #log.info(str(ex))
 
         finally:
             print("*********TEST END*********")
             log.info("*********TEST END*********")
-            fp.close()
+            #fp.close()
 
         log.info("发送邮件开始")
         Email.send_email(REPORTER_PATH)

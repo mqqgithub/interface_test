@@ -5,7 +5,7 @@
 
 import logging, time, os
 # 这个是日志保存本地的路径
-log_path = "D:\\interfaceTest\\result"
+log_path = "D:\\interface_test\\report"
 
 
 class Log:

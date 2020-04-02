@@ -17,7 +17,7 @@ from common.config_email import Email
 path = getpathInfo.get_base_path()
 print(path)
 # 测试结果文件夹路径
-report_path = os.path.join(path, 'result')
+report_path = os.path.join(path, 'report')
 
 # 是否发送email
 # on_off = readConfig.ReadConfig().get_email('on_off')
