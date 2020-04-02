@@ -1,167 +1,67 @@
+# 功能描述：
+# 开发人员：
+# 开发时间：
+# 参数说明;
 
-import logging
-import time
-import common.getpathInfo as path
-import os
-
-
-class TestLog(object):
-    '''
-封装后的logging
-    '''
-
-    def __init__(self, logger=None):
-        '''
-            指定保存日志的文件路径，日志级别，以及调用文件
-            将日志存入到指定的文件中
-        '''
-
-        # 创建一个logger
-        self.logger = logging.getLogger(logger)
-        # 相当于总的记录日志的级别
-        self.logger.setLevel(logging.DEBUG)
-        # 创建一个handler，用于写入日志文件
-        self.log_time = time.strftime("%Y_%m_%d_")
-        self.log_path = os.path.join(path.get_base_path(), 'result')
-        self.log_name = self.log_path + '\\' + self.log_time + 'test.log'
-        # fh = logging.FileHandler(self.log_name, 'a')  # 追加模式  这个是python2的
-        fh = logging.FileHandler(self.log_name, 'a', encoding='utf-8')  # 这个是python3的
-        # 文件记录日志的级别，依赖于总的记录日志的级别
-        fh.setLevel(logging.INFO)
-
-        # 再创建一个handler，用于输出到控制台
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.INFO)
-
-        # 定义handler的输出格式
-        formatter = logging.Formatter(
-            '[%(asctime)s] %(filename)s->%(funcName)s line:%(lineno)d [%(levelname)s]%(message)s')
-        fh.setFormatter(formatter)
-        ch.setFormatter(formatter)
-
-        # 给logger添加handler
-        self.logger.addHandler(fh)
-        self.logger.addHandler(ch)
-
-        #  添加下面一句，在记录日志之后移除句柄
-        # self.logger.removeHandler(ch)
-        # self.logger.removeHandler(fh)
-        # 关闭打开的文件
-        fh.close()
-        ch.close()
-
-    def get_log(self):
-        return self.logger
-
-'''
-import os
-import logging
-from datetime import datetime
-import threading
-import common.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
+import logging, time, os
+# 这个是日志保存本地的路径
+log_path = "D:\\interfaceTest\\result"
 
 
 class Log:
     def __init__(self):
-        global logPath, resultPath, proDir
-        proDir = readConfig.proDir
-        resultPath = os.path.join(proDir, "result")
-        if not os.path.exists(resultPath):
-            os.mkdir(resultPath)
-        logPath = os.path.join(resultPath, str(datetime.now().strftime("%Y%m%d%H%M%S")))
-        if not os.path.exists(logPath):
-            os.mkdir(logPath)
+        # 文件的命名
+        self.logname = os.path.join(log_path, '%s.log' % time.strftime('%Y_%m_%d'))
         self.logger = logging.getLogger()
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
 
-        # defined handler
-        handler = logging.FileHandler(os.path.join(logPath, "output.log"))
-        # defined formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
+        # 日志输出格式
+        self.formatter = logging.Formatter('[%(asctime)s] - %(filename)s[line:%(lineno)d] - fuc:%(funcName)s- %(levelname)s: %(message)s')
 
-    def get_logger(self):
-        """
-        get logger
-        :return:
-        """
-        return self.logger
+    def __console(self, level, message):
+        # 创建一个FileHandler，用于写到本地
+        fh = logging.FileHandler(self.logname, 'a', encoding='utf-8')  # 追加模式
+        fh.setLevel(logging.DEBUG)
+        fh.setFormatter(self.formatter)
+        self.logger.addHandler(fh)
 
-    def build_start_line(self, case_no):
-        """
-        write start line
-        :return:
-        """
-        self.logger.info("--------" + case_no + " START--------")
+        # 创建一个StreamHandler,用于输出到控制台
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        ch.setFormatter(self.formatter)
+        self.logger.addHandler(ch)
 
-    def build_end_line(self, case_no):
-        """
-        write end line
-        :return:
-        """
-        self.logger.info("--------" + case_no + " END--------")
+        if level == 'info':
+            self.logger.info(message)
+        elif level == 'debug':
+            self.logger.debug(message)
+        elif level == 'warning':
+            self.logger.warning(message)
+        elif level == 'error':
+            self.logger.error(message)
 
-    def build_case_line(self, case_name, code, msg):
-        """
-        write test case line
-        :param case_name:
-        :param code:
-        :param msg:
-        :return:
-        """
-        self.logger.info(case_name+" - Code:"+code+" - msg:"+msg)
+        # 这两行代码是为了避免日志输出重复问题
+        self.logger.removeHandler(ch)
+        self.logger.removeHandler(fh)
 
-    def get_report_path(self):
-        """
-        get report file path
-        :return:
-        """
-        report_path = os.path.join(logPath, "report.html")
-        return report_path
+        # 关闭打开的文件
+        fh.close()
 
-    def get_result_path(self):
-        """
-        get test result path
-        :return:
-        """
-        return logPath
+    def debug(self, message):
+        self.__console('debug', message)
 
-    def write_result(self, result):
-        """
+    def info(self, message):
+        self.__console('info', message)
 
-        :param result:
-        :return:
-        """
-        result_path = os.path.join(logPath, "report.txt")
-        fb = open(result_path, "wb")
-        try:
-            fb.write(result)
-        except FileNotFoundError as ex:
-            logger.error(str(ex))
+    def warning(self, message):
+        self.__console('warning', message)
 
+    def error(self, message):
+        self.__console('error', message)
 
-class MyLog:
-    log = None
-    mutex = threading.Lock()
-
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def get_log():
-
-        if MyLog.log is None:
-            MyLog.mutex.acquire()
-            MyLog.log = Log()
-            MyLog.mutex.release()
-
-        return MyLog.log
 
 if __name__ == "__main__":
-    log = MyLog.get_log()
-    logger = log.get_logger()
-    logger.debug("test debug")
-    logger.info("test info")
-'''
+    lo = Log()
+    lo.info("---测试开始----")
+    lo.info("输入密码")
+    lo.warning("----测试结束----")

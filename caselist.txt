@@ -1,6 +1,6 @@
 user/test01case
 user/test02case
-#user/test03case
+user/test03case
 #user/test04case
 #user/test05case
 #shop/test_shop_list

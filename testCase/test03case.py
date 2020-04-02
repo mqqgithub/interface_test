@@ -42,9 +42,6 @@ class testUserLogin03(unittest.TestCase):
         self.case_name
 
     def setUp(self):
-        """
-        :return:
-        """
         print(self.case_name+"测试开始前准备")
 
     def test03case(self):

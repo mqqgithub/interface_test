@@ -1,11 +1,12 @@
+# https://www.cnblogs.com/kaibindirver/p/7492963.html
 import os
 import time
 import unittest
 import common.HTMLTestRunner as HTMLTestRunner
 from common import getpathInfo
-from common.log import TestLog
+from common.log import Log
 from common.config_email import Email
-import threading
+import multiprocessing
 
 # from apscheduler.schedulers.blocking import BlockingScheduler
 # import pythoncom
@@ -22,7 +23,7 @@ report_path = os.path.join(path, 'result')
 
 # 是否发送email
 # on_off = readConfig.ReadConfig().get_email('on_off')
-log = TestLog().get_log()
+log = Log()
 
 
 class AllTest:
@@ -102,10 +103,11 @@ class AllTest:
                 fp = open(REPORTER_PATH, 'wb')
                 proclist = []
                 # 调用HTMLTestRunner
-                for i in suite:
+                for i in suit:
                     runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Test Report', description='Test Description')
-                    proc = threading.Thread(target=runner.run, args=(i,))
+                    proc = multiprocessing.Process(target=runner.run, args=(i,))
                     proclist.append(proc)
+                print('线程数量=%d' % len(proclist))
                 for pro in proclist:
                     pro.start()
                 for pro in proclist:
@@ -131,9 +133,15 @@ class AllTest:
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     suit = AllTest().set_case_suite()
     AllTest().run(suit)
+    end_time = time.time()
+    log.info('总时长=%.4f' % (end_time - start_time))
     # tests = AllTest()
     # tests.run()
-
+'''
+1、生成的测试报告有问题
+2、时间没有减少太多
+'''
 

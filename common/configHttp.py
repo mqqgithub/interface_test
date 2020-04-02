@@ -3,9 +3,9 @@
 '''
 import requests
 import json
-from common.log import TestLog
+from common.log import Log
 
-logger = TestLog().get_log()
+logger = Log()
 
 
 class RunMain():

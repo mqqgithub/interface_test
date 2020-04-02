@@ -3,7 +3,7 @@ import time
 import unittest
 import common.HTMLTestRunner as HTMLTestRunner
 from common import getpathInfo
-from common.log import TestLog
+from common.log import Log
 from common.config_email import Email
 
 # from apscheduler.schedulers.blocking import BlockingScheduler
@@ -21,7 +21,7 @@ report_path = os.path.join(path, 'result')
 
 # 是否发送email
 # on_off = readConfig.ReadConfig().get_email('on_off')
-log = TestLog().get_log()
+log = Log()
 
 
 class AllTest:
@@ -37,7 +37,7 @@ class AllTest:
         # 配置执行哪些测试文件的配置文件路径
         self.caseListFile = os.path.join(path, "caselist.txt")
 
-        # 真正的测试断言文件路径
+        # 真正的测试断言脚本文件路径
         self.caseFile = os.path.join(path, "testCase")
         # 要执行的case放到一个list中
         self.caseList = []
@@ -87,16 +87,12 @@ class AllTest:
                     test_suite.addTest(test_name)
         else:
             return None
-        print("******print test_suite******")
+        log.info("******print test_suite******")
         return test_suite
 
     def run(self):
-        """
-        run test
-        :return:
-        """
+        log.info("*********TEST START*********")
         try:
-
             # 调用set_case_suite获取test_suite
             suit = self.set_case_suite()
             # 判断test_suite是否为空
@@ -107,13 +103,10 @@ class AllTest:
                 runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Test Report', description='Test Description')
                 runner.run(suit)
             else:
-                print("Have no case to test.")
+                print("Have no case to test!")
         except Exception as ex:
-            print(str(ex))
             log.info(str(ex))
-
         finally:
-            print("*********TEST END*********")
             log.info("*********TEST END*********")
             fp.close()
 
@@ -127,7 +120,11 @@ class AllTest:
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     AllTest().run()
+    end_time = time.time()
+    log.info('总时长=%.4f' % (end_time - start_time))
+
     # tests = AllTest()
     # tests.run()
 
