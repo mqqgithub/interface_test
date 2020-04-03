@@ -45,4 +45,4 @@ if __name__ == "__main__":
     report_path = path.join(os.path.dirname(path), 'result', 'report.html')
     HTMLfile = open('report_path', 'wb')
     runner = HTMLTestRunner.HTMLTestRunner(stream=HTMLfile, title='Test Report', description='Test Description')
-    runner.run(testcase())
+    runner.run(TestDemo().testcase())

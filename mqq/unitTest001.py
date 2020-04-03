@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
 
     def test_case2(self):
         print(self.number)
-        self.assertEqual(self.number, 10, msg='Your input is not 20')
+        self.assertEqual(self.number, 20, msg='Your input is not 20')
 
     @unittest.skip('暂时跳过用例3的测试')
     def test_case3(self):
@@ -53,6 +53,10 @@ if __name__ == '__main__':
     # 8.1执行测试用例方案一如下：
     # unittest.main()方法会搜索该模块下所有以test开头的测试用例方法，并自动执行它们。
     # 执行顺序是命名顺序：先执行test_case1，再执行test_case2
+    # verbosity是一个选项,表示测试结果的信息复杂度，有0、1、2 三个值
+    # 0 (静默模式): 你只能获得总的测试用例数和总的结果 比如 总共10个 失败2 成功8
+    # 1 (默认模式): 非常类似静默模式 只是在每个成功的用例前面有个“.” 每个失败的用例前面有个 “F”
+    # 2 (详细模式):测试结果会显示每个测试用例的所有相关的信息
     unittest.main(verbosity=2)
 
 '''
@@ -61,7 +65,7 @@ if __name__ == '__main__':
 #8.2.1.1实例化测试套件
     suite=unittest.TestSuite()
 #8.2.1.2将测试用例加载到测试套件中。
-#执行顺序是安装加载顺序：先执行test_case2，再执行test_case1
+#执行顺序是安装加载顺序：先执行test_case2，再执行test_case1,Test('test_case2')=类名（方法名）
     suite.addTest(Test('test_case2'))
     suite.addTest(Test('test_case1'))
 #8.2.2执行测试用例
