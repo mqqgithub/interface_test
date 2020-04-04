@@ -101,7 +101,7 @@ class AllTest:
             # 判断test_suite是否为空
             if suit is not None:
                 # 打开result/20181108/report.html测试报告文件，如果不存在就创建
-                fp = open(REPORTER_PATH, 'wb')
+                fp = open(REPORTER_PATH, 'ab+')
                 proclist = []
                 # 调用HTMLTestRunner
                 for i in suit:
