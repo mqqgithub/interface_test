@@ -1,6 +1,7 @@
 import HTMLReport
 import unittest
 import os, time
+from threading import Thread
 
 
 # 测试用例文件路径
@@ -11,7 +12,7 @@ print('descover  ', discover)
 # 测试报告文件路径
 report_path = os.path.join(os.getcwd(), 'report')
 report_time = time.strftime("%Y_%m_%d_%H_%M_%S_")
-report_name = report_time + "report.html"
+report_name = report_time + "report"
 # fp = open(report_name, 'wb')
 # 调用HTMLTestRunner
 
@@ -24,4 +25,6 @@ def run():
 
 if __name__ == '__main__':
     run()
+
+
 

@@ -24,10 +24,11 @@ class Test(unittest.TestCase):
         print('test over....')
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTest(Test("test01"))
     suite.addTest(Test("test02"))
     print(suite)
-    #runner = unittest.TextTestRunner(verbosity=2)
-    #.run()
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run()
+
