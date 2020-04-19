@@ -7,8 +7,6 @@ import hashlib
 urllib3.disable_warnings()
 
 
-# 作者：上海-悠悠 QQ交流群：512200893
-
 class LoginLgw():
 
     def __init__(self, s):
