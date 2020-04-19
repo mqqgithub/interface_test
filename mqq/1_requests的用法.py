@@ -6,6 +6,7 @@ import requests
 import json
 # get参数传递方式一 返回的是json格式的
 r = requests.get('http://127.0.0.1:8888/login?name=xiaoming&pwd=111')
+print(r.text)
 result = r.json() # 返回的是字典值
 print(result['code'])
 
