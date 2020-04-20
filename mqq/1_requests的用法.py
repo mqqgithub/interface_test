@@ -10,12 +10,16 @@ params：字典或字节序列， 作为参数增加到url中,使用这个参数
 例如：kv = {'key1':' values', 'key2': 'values'}
 r = requests.get('http:www.python123.io/ws', params=kw)
 
-data：字典，字节序或文件对象，重点作为向服务器提供或提交资源是提交，，作为request的内容，与params不同的是，data提交的数据并不放在url链接里， 而是放在url链接对应位置的地方作为数据来存储。，它也可以接受一个字符串对象。
-json：json格式的数据， json合适在相关的html，http相关的web开发中非常常见， 也是http最经常使用的数据格式， 他是作为内容部分可以向服务器提交。
-例如：kv = {'key1': 'value1'}
+data：字典，字节序或文件对象，重点作为向服务器提供或提交资源是提交，，
+    作为request的内容，与params不同的是，data提交的数据并不放在url链接里，
+    而是放在url链接对应位置的地方作为数据来存储。，它也可以接受一个字符串对象。
+json：json格式的数据， json合适在相关的html，http相关的web开发中非常常见， 也是http最经常使用的数据格式，
+    他是作为内容部分可以向服务器提交。
+    例如：kv = {'key1': 'value1'}
 r = requests.post('http://python123.io/ws', json=kv)
 
-headers：字典是http的相关语，对应了向某个url访问时所发起的http的头i字段， 可以用这个字段来定义http的访问的http头，可以用来模拟任何我们想模拟的浏览器来对url发起访问。
+headers：字典是http的相关语，对应了向某个url访问时所发起的http的头i字段，
+    可以用这个字段来定义http的访问的http头，可以用来模拟任何我们想模拟的浏览器来对url发起访问。
 
 
 例子： hd = {'user-agent': 'Chrome/10'}
