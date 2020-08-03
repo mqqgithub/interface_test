@@ -53,6 +53,8 @@ result = r.json()  # 返回的值是json的
 print(r)
 print(result)
 print(result['code'])
+print(r.status_code)
+print("*"*10)
 
 data = {'name': 'xiaoming', 'pwd': '111'}
 # data = "name=xiaoming&pwd=111"
@@ -60,7 +62,8 @@ data = {'name': 'xiaoming', 'pwd': '111'}
 r = requests.get('http://127.0.0.1:8888/login', params=data)
 print(r)
 print(type(r.json()))
-
+print(r.content)
+print("*"*10)
 
 # post字典方式传参  data /json
 '''
@@ -80,7 +83,7 @@ print(r.json())
 dat = json.dumps(data)
 r = requests.post('http://127.0.0.1:8888/login', json=dat)
 print(r.json())
-
+print("*"*10)
 # post加请求头
 # r1 =  requests.session().post(url, data=body1, headers=h, verify=False)
 
@@ -108,4 +111,4 @@ print(r.json())
 # c = b.decode('utf-8')  # 字符串str
 # print(type(c))
 
-# str(unicode)--->encode(utf-8)--->bytes()--->decode(utf-8)--->tr(unicode)
+# str(unicode)--->encode(utf-8)--->bytes()--->decode(utf-8)--->str(unicode)
