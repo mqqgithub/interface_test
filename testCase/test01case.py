@@ -76,6 +76,5 @@ class testUserLogin01(unittest.TestCase):
             self.assertEqual(ss['code'], 10001)
 
 
-
 if __name__ == "__main__":
     unittest.main(verbosity=2)

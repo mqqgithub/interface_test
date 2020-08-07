@@ -37,5 +37,7 @@ if __name__ == '__main__':
 
     # 我们执行该文件测试一下是否可以正确获取Excel中的值
     print(ReadExcel.get_xls('userCase.xlsx', 'login'))
-    print(ReadExcel.get_xls('userCase.xlsx', 'login')[0][1])
-    print(ReadExcel.get_xls('userCase.xlsx', 'login')[1][2])
+    # print(ReadExcel.get_xls('userCase.xlsx', 'login')[0][1])
+    print(ReadExcel.get_xls('user03Case.xlsx', 'login')[1][2])
+    x = ReadExcel.get_xls('user03Case.xlsx', 'login')[1][2]
+    print(type(x))

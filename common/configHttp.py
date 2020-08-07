@@ -15,7 +15,8 @@ class RunMain():
         # 参数必须按照url、data顺序传入,data是字典类型
         # 因为这里要封装post方法，所以这里的url和data值不能写死
         '''
-        result = requests.post(url=url, data=data).json()
+        data_json = json.loads(data)
+        result = requests.post(url=url, data=data_json).json()
         res = json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2)
         return res
 
@@ -49,5 +50,5 @@ class RunMain():
 
 if __name__ == '__main__':
     # 通过写死参数，来验证我们写的请求是否正确
-    result = RunMain().run_main('post', 'http://127.0.0.1:8888/login', {'name': 'xiaoming', 'pwd': '111'})
+    result = RunMain().run_main('post', 'http://127.0.0.1:8888/login', '{"name": "xiaoming", "pwd": "111"}')
     print('result:', result)

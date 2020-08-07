@@ -31,6 +31,7 @@ class testUserLogin03(unittest.TestCase):
         self.case_name = str(case_name)
         self.path = str(path)
         self.query = str(query)
+        print(self.query)
         self.method = str(method)
         self.result = str(result)
 
@@ -56,8 +57,9 @@ class testUserLogin03(unittest.TestCase):
         :return:
         """
         url1 = "http://www.xxx.com/login?"
-        new_url = url1 + self.query
-        data1 = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(new_url).query))# 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
+        #new_url = url1 + self.query
+        #data1 = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(new_url).query))# 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
+        data1 = self.query
         info = RunMain().run_main(self.method, url, data1)  # 根据Excel中的method调用run_main来进行requests请求，并拿到响应
         s1 = json.loads(info)  # 将响应转换为字典格式
         s2 = json.loads(self.result)
