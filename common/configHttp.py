@@ -8,7 +8,7 @@ from common.log import Log
 logger = Log()
 
 
-class RunMain():
+class HttpRequest():
     # 定义一个方法，传入需要的参数url和data
     def send_post(self, url, data):
         '''
@@ -34,7 +34,7 @@ class RunMain():
 
     # method是get、post，url接口地址，data接口参数
     # 定义一个run_main函数，通过传过来的method来进行不同的get或post请求
-    def run_main(self, method, url=None, data=None):
+    def run(self, method, url=None, data=None):
         result = None
         if method == 'post':
             result = self.send_post(url, data)
@@ -50,5 +50,5 @@ class RunMain():
 
 if __name__ == '__main__':
     # 通过写死参数，来验证我们写的请求是否正确
-    result = RunMain().run_main('post', 'http://127.0.0.1:8888/login', '{"name": "xiaoming", "pwd": "111"}')
+    result = HttpRequest().run('post', 'http://127.0.0.1:8888/login', '{"name": "xiaoming", "pwd": "111"}')
     print('result:', result)

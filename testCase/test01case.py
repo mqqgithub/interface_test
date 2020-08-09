@@ -1,14 +1,14 @@
 import json
 import unittest
-from common.configHttp import RunMain
+from common.configHttp import HttpRequest
 import paramunittest
 from common import geturlParams, read_excel
-import urllib.parse
+# import urllib.parse
 # import pythoncom
 # pythoncom.CoInitialize()
 
 # 调用我们的geturlParams获取我们拼接的URL
-url = geturlParams.geturlParams().get_Url()
+# url = geturlParams.geturlParams().get_Url()
 login_xls = read_excel.ReadExcel.get_xls('userCase.xlsx', 'login')
 # login_xls是一个列表，每行值也是一个列表，列表中的列表
 # print('输入参数值', login_xls)
@@ -17,7 +17,7 @@ login_xls = read_excel.ReadExcel.get_xls('userCase.xlsx', 'login')
 # 加载列表中的值
 @paramunittest.parametrized(*login_xls)
 class testUserLogin01(unittest.TestCase):
-    def setParameters(self, case_name, path, query, method):
+    def setParameters(self, case_name, url, path, query, method):
         """
         set params
         :param case_name:用例名字
@@ -27,6 +27,7 @@ class testUserLogin01(unittest.TestCase):
         :return:
         """
         self.case_name = str(case_name)
+        self.url = str(url)
         self.path = str(path)
         self.query = str(query)
         self.method = str(method)
@@ -39,30 +40,23 @@ class testUserLogin01(unittest.TestCase):
         self.case_name
 
     def setUp(self):
-        """
-        :return:
-        """
         print(self.case_name+"测试开始前准备")
-
-    def test01case(self):
-        self.checkResult()
 
     def tearDown(self):
         print("测试结束，输出log完结\n\n")
 
-    def checkResult(self):# 断言
-        """
-        check test result
-        :return:
-        """
+    def test01case(self):
+        self.checkResult()
+
+    # 断言
+    def checkResult(self):
         url1 = "http://www.xxx.com/login?"
-        new_url = url1 + self.query
-
+        # new_url = url1 + self.query
         # 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
-        data1 = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(new_url).query))
-
+        # data1 = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(new_url).query))
+        # data1 = self.query
         # 根据Excel中的method调用run_main来进行requests请求，并拿到响应
-        info = RunMain().run_main(self.method, url, data1)
+        info = HttpRequest().run(self.method, self.url, self.query)
 
         # 将响应转换为字典格式
         ss = json.loads(info)

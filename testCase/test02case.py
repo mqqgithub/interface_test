@@ -1,6 +1,6 @@
 import json
 import unittest
-from common.configHttp import RunMain
+from common.configHttp import HttpRequest
 import paramunittest
 from common import geturlParams, read_excel
 import urllib.parse
@@ -54,11 +54,12 @@ class testUserLogin02(unittest.TestCase):
         check test result
         :return:
         """
-        url1 = "http://www.xxx.com/login?"
-        new_url = url1 + self.query
-        data1 = dict(urllib.parse.parse_qsl(
-            urllib.parse.urlsplit(new_url).query))  # 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
-        info = RunMain().run_main(self.method, url, data1)  # 根据Excel中的method调用run_main来进行requests请求，并拿到响应
+        #url1 = "http://www.xxx.com/login?"
+        #new_url = url1 + self.query
+        #data1 = dict(urllib.parse.parse_qsl(
+            #urllib.parse.urlsplit(new_url).query))  # 将一个完整的URL中的name=&pwd=转换为{'name':'xxx','pwd':'bbb'}
+        data1 = self.query
+        info = HttpRequest().run(self.method, url, data1)  # 根据Excel中的method调用run_main来进行requests请求，并拿到响应
         ss = json.loads(info)  # 将响应转换为字典格式
         if self.case_name == 'login':  # 如果case_name是login，说明合法，返回的code应该为200
             self.assertEqual(ss['code'], self.result)
